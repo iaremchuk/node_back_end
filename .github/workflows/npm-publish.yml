@@ -28,8 +28,21 @@ jobs:
     - name: Install dependencies
       run: "npm install"
 
-    - name: Run project
-      run: "node index.js"
-
-    - name: Run unit test
-      run: "npm test"
+    - name: Run server in the background
+      run: npm start -- --p 5000 --cp 3000 &
+        
+    - name: Wait for server to start
+      run: |
+        n=0
+        until [ $n -ge 5 ]
+        do
+          curl -s http://localhost:5000 >/dev/null && break
+          n=$[$n+1]
+          sleep 5
+        done
+        
+    - name: Run tests
+      run: npm test
+        
+    - name: Stop server
+      run: pkill -f "node index.js"
