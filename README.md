@@ -1,3 +1,7 @@
+# Badge
+![](https://github.com/iaremchuk/node_back_end/actions/workflows/CI/badge.svg)
+
+
 # Description
 This project is the Node.js backend part of an educational  project. It provides connection to DB, implements CRUD operations and sends responses to requests. 
 ## Setup
