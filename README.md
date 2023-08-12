@@ -1,5 +1,5 @@
 # Badge
-![](https://github.com/iaremchuk/node_back_end/actions/workflows/CI/badge.svg)
+![](https://github.com/iaremchuk/node_back_end/actions/workflows/npm-publish.yml/badge.svg)
 
 
 # Description
