@@ -1,0 +1,35 @@
+name: CI
+
+on:
+  push:
+    branches:
+       - main
+       - development
+  workflow_dispatch:
+
+jobs:
+  my_first_jobs:
+    runs-on: macos-latest
+    
+    steps:
+    - name: Set up Node
+      uses: actions/setup-node@v3
+      with:
+        node-version: 16
+        
+    - name: Show version
+      run: "node --version"
+    
+    - name: Get repo
+      uses: actions/checkout@v3
+      with:
+        ref: development
+        
+    - name: Install dependencies
+      run: "npm install"
+
+    - name: Build project
+      run: "npm start -- --p 5050 --cp 3000"
+
+    - name: Run unit test
+      run: "npm test"
