@@ -28,8 +28,8 @@ jobs:
     - name: Install dependencies
       run: "npm install"
 
-    - name: Build project
-      run: "npm run build"
+    - name: Run project
+      run: "node index.js"
 
     - name: Run unit test
       run: "npm test"
