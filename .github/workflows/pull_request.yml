@@ -23,17 +23,16 @@ jobs:
       - name: Perform Task
         run: |
           echo "Performing the task..."
-          # You can put your task-related commands here
         
       - name: Create New Branch
         run: |
-          git checkout -b update-and-test
+          git checkout -b feature-update
           git add .
           git commit -m "Update and test"
         
       - name: Push Changes to New Branch
         run: |
-          git push origin update-and-test
+          git push origin feature-update
         
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v3
@@ -42,7 +41,7 @@ jobs:
           commit-message: "Update and test"
           title: "Update and Test Workflow"
           body: "This pull request updates the workflow and tests the task."
-          branch: update-and-test
+          branch: feature-update
           branch-suffix: timestamp
         
       - name: Wait for Checks
