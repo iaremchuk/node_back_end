@@ -1,0 +1,20 @@
+name: Pull Request Trigger
+
+on:
+  pull_request:
+    types:
+      - opened
+      - synchronize
+
+jobs:
+  my_first_jobs:
+    runs-on: macos-latest
+    
+    steps:
+    - name: Set up Node
+      uses: actions/setup-node@v3
+      with:
+        node-version: 16
+        
+    - name: Show version
+      run: "node --version"
