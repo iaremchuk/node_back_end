@@ -9,15 +9,21 @@ on:
 
 jobs:
   update-and-test:
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     
     steps:
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+          
       - name: Checkout Repository
         uses: actions/checkout@v2
         
       - name: Perform Task
         run: |
           echo "Performing the task..."
+          # You can put your task-related commands here
         
       - name: Create New Branch
         run: |
