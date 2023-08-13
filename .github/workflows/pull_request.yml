@@ -1,7 +1,64 @@
-name: Pull_Request
+name: Update and Test Workflow
 
 on:
   pull_request:
     types:
       - opened
       - synchronize
+  workflow_dispatch:
+
+jobs:
+  update-and-test:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+        
+      - name: Perform Task
+        run: |
+          echo "Performing the task..."
+        
+      - name: Create New Branch
+        run: |
+          git checkout -b update-and-test
+          git add .
+          git commit -m "Update and test"
+        
+      - name: Push Changes to New Branch
+        run: |
+          git push origin update-and-test
+        
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v3
+        with:
+          token: ${{ secrets.MY_ACCESS_TOKEN }}
+          commit-message: "Update and test"
+          title: "Update and Test Workflow"
+          body: "This pull request updates the workflow and tests the task."
+          branch: update-and-test
+          branch-suffix: timestamp
+        
+      - name: Wait for Checks
+        uses: actions/github-script@v4
+        with:
+          github-token: ${{ secrets.MY_ACCESS_TOKEN }}
+          script: |
+            const { data: checks } = await github.checks.listForRef({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              ref: context.payload.pull_request.head.ref,
+            });
+
+            const hasAllChecksPassed = checks.check_runs.every(check => check.conclusion === 'success');
+
+            if (hasAllChecksPassed) {
+              console.log("All checks passed. Merging pull request...");
+              await github.pulls.merge({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                pull_number: context.payload.pull_request.number,
+              });
+            } else {
+              console.log("Not all checks have passed.");
+            }
